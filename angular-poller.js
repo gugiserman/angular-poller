@@ -257,7 +257,6 @@
                         }
                     }
 
-                    tick();
                     this.interval = $interval(tick, delay);
                     this.promise = this.deferred.promise;
                 },
