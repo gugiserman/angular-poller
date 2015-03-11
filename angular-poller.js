@@ -43,7 +43,8 @@
             resetOnStateChange: false,
             delayOnVisibilityChange: false,
             stopOnVisibilityChange: false,
-            neverOverwrite: false
+            neverOverwrite: false,
+            tickOnInit: true
         })
 
         .run(function ($rootScope, $document, poller, pollerConfig) {
@@ -190,7 +191,7 @@
                 /**
                  * Start poller service.
                  */
-                start: function () {
+                start: function (firstRun) {
 
                     var target = this.target,
                         action = this.action,
@@ -257,7 +258,9 @@
                         }
                     }
 
-                    tick();
+                    if (pollerConfig.tickOnInit && firstRun) {
+                        tick();
+                    }
                     this.interval = $interval(tick, delay);
                     this.promise = this.deferred.promise;
                 },
@@ -301,7 +304,7 @@
 
                         poller = new Poller(target, options);
                         pollers.push(poller);
-                        poller.start();
+                        poller.start(true); // firstRun statement
 
                     } else {
 
